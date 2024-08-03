@@ -1,0 +1,265 @@
+<div class="mat-elevation-z8">
+    <table class="table1" mat-table [dataSource]="dataSource">
+     
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="Theader"> ID
+          </th>
+          <td mat-cell *matCellDef="let i=index"> {{i+1}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="Theader"> Name </th>
+          <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="Theader"> Email </th>
+          <td mat-cell *matCellDef="let row"> {{row.email}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="phone">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="Theader"> Contact No. </th>
+          <td mat-cell *matCellDef="let row"> {{row.phone}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="country">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="Theader"> Country </th>
+          <td mat-cell *matCellDef="let row"> {{row.country}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="gender">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="Theader"> Gender </th>
+          <td mat-cell *matCellDef="let row"> {{row.gender}} </td>
+        </ng-container>
+        
+
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="Theader">Action
+          </th>
+          <td mat-cell *matCellDef="let row" style="display: flex;">
+
+            <button (click)="onEdit(row)" mat-icon-button color="primary">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button (click)="onDelete(row.id)" mat-icon-button color="warn">
+              <mat-icon>delete</mat-icon>
+            </button>
+            
+          </td>
+        </ng-container>
+      
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [class.marked-for-deletion]="rowsMarkedForDeletion.includes(row)"></tr>
+ 
+    </table>
+
+    <div class="d-flex justify-content-between p-2">
+      <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize" (pageChange)="getPremiumData();">
+      </ngb-pagination>
+    
+      <select class="custom-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="getPremiumData();">
+        <option [ngValue]="2">2 items per page</option>
+        <option [ngValue]="4">4 items per page</option>
+        <option [ngValue]="6">6 items per page</option>
+      </select>
+    </div>
+  </div>
+
+
+
+ 
+
+
+ <div> <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myone" [disabled]="isSavePending">
+  Add Details
+</button></div>
+<div><button type="button" class="btn btn-primary" style="width: 110px; margin-top: 30px;" (click)="Save()">Save</button></div>
+ 
+
+<div id="myone" class="modal fade container1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content modal-background">
+        
+        <div class="modal-header">
+          <h1 class="modal-title" id="myone">Details</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+  
+  
+        <form class="modal-body" [formGroup]="userForm">
+          <div class="container">
+  
+            <div class="row mb-3">
+              <label for="name" class="col-sm-3 col-form-label"><b>Name</b></label>
+              <div class="col-sm-9">
+                <input type="text"  class="form-control" [class.is-invalid]="f['name'].invalid && f['name'].touched" formControlName="name" id="name" placeholder="Enter Name" name="name" required>
+                <div class="alert alert-danger" *ngIf="f['name'].invalid && f['name'].touched">
+                  <div *ngIf="f['name'].errors && f['name'].errors['required']">
+                       Name Is required
+                  </div>
+                  <div *ngIf="f['name'].errors && f['name'].errors['minlength']">
+                       3 Characters Minimum
+                  </div>
+                  <div *ngIf="f['name'].errors && f['name'].errors['maxlength']">
+                       20 Characters Maximum
+                  </div>
+               </div>
+              </div>
+            </div>
+  
+           
+            <div class="row mb-3">
+              <label for="email" class="col-sm-3 col-form-label"><b>Email</b></label>
+              <div class="col-sm-9">
+                <input type="email" class="form-control"[class.is-invalid]="f['email'].invalid && f['email'].touched" formControlName="email" id="email" placeholder="Enter Email" name="email" required>
+                <div class="alert alert-danger" *ngIf="f['email'].invalid && f['email'].touched">
+                  <div *ngIf="f['email'].errors && f['email'].errors['required']">
+                       Email Is required
+                  </div>
+                  <div *ngIf="f['email'].errors && f['email'].errors['pattern']">
+                       Invalid Email
+               </div>
+               </div>
+              </div>
+            </div>
+            
+            <!-- <div class="row mb-3">
+              <label for="phone" class="col-sm-3 col-form-label"><b>Contact Number</b></label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" 
+                [class.is-invalid]="f['phone'].invalid && f['phone'].touched" 
+                formControlName="phone" id="phone" 
+                placeholder="Enter Contact Number" 
+                name="phone" 
+                required
+                mask="+91 00000 00000" 
+               >
+                <div class="alert alert-danger" *ngIf="f['phone'].invalid && f['phone'].touched">
+                  <div *ngIf="f['phone'].errors && f['phone'].errors['required']">
+                       Contact Is required
+                  </div>
+                  <div *ngIf="f['phone'].errors && f['phone'].errors['maxlength']">
+                        Enter 10 Numbers only
+                  </div>
+               </div>
+              </div>
+            </div> -->
+
+            <div class="row mb-3">
+              <label for="country" class="col-sm-3 col-form-label"><b>Country</b></label>
+              <div class="col-sm-9">
+                <select class="form-control" 
+                [class.is-invalid]="f['country'].invalid && f['country'].touched" 
+                formControlName="country" id="country" name="country"
+                required  (change)="onCountryChange($event)" [(ngModel)]="selectedCountryId" (ngModelChange)="onCountryChanges()">
+                  <!-- <option value="" disabled selected>Select a country</option>
+                  <option value="USA">United States</option>
+                  <option value="Canada">Canada</option>
+                  <option value="UK">United Kingdom</option>
+                  <option value="Australia">Australia</option>
+                  <option value="India">India</option> -->
+                  <option value="">Select a country</option>
+                  <option *ngFor="let country of countries" [value]="country.id">{{country.name}}</option>
+                </select>
+                <div class="alert alert-danger" *ngIf="f['country'].invalid && f['country'].touched">
+                  <div *ngIf="f['country'].errors?.['required']">Country is required</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <label for="country" class="col-sm-3 col-form-label"><b>State</b></label>
+              <div class="col-sm-9">
+                <select class="form-control" 
+                [class.is-invalid]="f['state'].invalid && f['state'].touched" 
+                formControlName="state" id="state" name="state"
+                required [(ngModel)]="selectedStateId" (ngModelChange)="onStateChange()">
+                  <option value="">Select a country</option>
+                  <option *ngFor="let states of states[selectedCountryId]" [value]="states.id">{{states.name}}</option>
+                </select>
+                <div class="alert alert-danger" *ngIf="f['state'].invalid && f['state'].touched">
+                  <div *ngIf="f['state'].errors?.['required']">Country is required</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <label for="country" class="col-sm-3 col-form-label"><b>City</b></label>
+              <div class="col-sm-9">
+                <select class="form-control" 
+                [class.is-invalid]="f['city'].invalid && f['city'].touched" 
+                formControlName="city" id="city" name="city"
+                required  [(ngModel)]="selectedCityId">
+                  <option value="">Select a City</option>
+                  <option *ngFor="let city of cities[selectedStateId]" [value]="city.id">{{city.name}}</option>
+                </select>
+                <div class="alert alert-danger" *ngIf="f['city'].invalid && f['city'].touched">
+                  <div *ngIf="f['city'].errors?.['required']">Country is required</div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="row mb-3">
+              <label for="phone" class="col-sm-3 col-form-label"><b>Contact Number</b></label>
+              <div class="col-sm-9">
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  [class.is-invalid]="f['phone'].invalid && f['phone'].touched" 
+                  formControlName="phone countryCode" 
+                  id="phone" 
+                  placeholder="Enter Contact Number" 
+                  name="phone" 
+                  required 
+                   [value]="getCountryCode()" 
+                  [(ngModel)]="userForm.value.phone"
+                >
+                <div class="alert alert-danger" *ngIf="f['phone'].invalid && f['phone'].touched">
+                  <div *ngIf="f['phone'].errors && f['phone'].errors['required']">
+                    Contact is required
+                  </div>
+                  <div *ngIf="f['phone'].errors && f['phone'].errors['pattern']">
+                    Enter 10 numbers only
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+
+            
+
+            
+            
+
+            <div class="row mb-3">
+              <label for="gender" class="col-sm-3 col-form-label"><b>Gender</b></label>
+              <div class="col-sm-9">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" [class.is-invalid]="f['gender'].invalid && f['gender'].touched" formControlName="gender" id="male" value="Male">
+                  <label class="form-check-label" for="male">Male</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" [class.is-invalid]="f['gender'].invalid && f['gender'].touched" formControlName="gender" id="female" value="Female">
+                  <label class="form-check-label" for="female">Female</label>
+                </div>
+                <div class="alert alert-danger" *ngIf="f['gender'].invalid && f['gender'].touched">
+                  <div *ngIf="f['gender'].errors?.['required']">Gender is required</div>
+                </div>
+              </div>
+            </div>
+            
+            
+          </div>
+          <div class="modal-footer">
+            <div class="d-flex justify-content-between">
+              <button type="button" class="btn btn-denger" data-bs-dismiss="modal" (click)="reset()">Close</button>
+              <button type="submit" [class.disabled]="userForm.invalid" class="btn btn-primary" (click)="addItem()" data-bs-dismiss="modal" >Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,68 @@
+{
+  "table": [
+    {
+      "name": "Devarshi",
+      "email": "devu@yopmail.com",
+      "phone": "1234567890",
+      "country": "India",
+      "gender": "Female",
+      "id": "5b51"
+    },
+    {
+      "name": "Tirth",
+      "email": "tirth@yopmail.com",
+      "phone": "1234567890",
+      "country": "India",
+      "gender": "Male",
+      "id": "60c8"
+    },
+    {
+      "name": "Krisha",
+      "email": "krisha@yopmail.com",
+      "phone": "1234567890",
+      "country": "India",
+      "gender": "Female",
+      "id": "09e2"
+    },
+    {
+      "name": "Het",
+      "email": "het@yopmail.com",
+      "phone": "2447932737",
+      "country": "India",
+      "gender": "Male",
+      "id": "f32e"
+    },
+    {
+      "name": "Isha",
+      "email": "isha@yopmail.com",
+      "phone": "000000000",
+      "country": "India",
+      "gender": "Female",
+      "id": "4709"
+    },
+    {
+      "id": "2d1f",
+      "name": "Jay",
+      "email": "jay@yopmail.com",
+      "phone": "1234567890",
+      "country": "Australia",
+      "gender": "Male"
+    },
+    {
+      "id": "f2e8",
+      "name": "Mitul",
+      "email": "mitul@yopmail.com",
+      "phone": "234567890",
+      "country": "USA",
+      "gender": "Male"
+    },
+    {
+      "name": "Harshil",
+      "email": "harshil@yopmail.com",
+      "phone": "123888888",
+      "country": "Australia",
+      "gender": "Male",
+      "id": "7c71"
+    }
+  ]
+}
